@@ -18,7 +18,7 @@ class PantallaInicioSesion extends StatelessWidget {
               controller: usuarioController,
               decoration: InputDecoration(labelText: 'Usuario'),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 20),
             TextField(
               controller: claveController,
               decoration: InputDecoration(labelText: 'Contraseña'),
@@ -32,7 +32,10 @@ class PantallaInicioSesion extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PantallaPerfilCliente()),
                 );
               },
-              child: Text('Iniciar Sesión'),
+              child: Text(
+                'Iniciar Sesión',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ],
         ),

@@ -11,29 +11,51 @@ class PantallaPerfilCliente extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CircleAvatar(radius: 50, backgroundColor: Colors.blue),
+            CircleAvatar(radius: 80, backgroundColor: Colors.blue),
             SizedBox(height: 20),
-            Text('Nombre: Juan Pérez', style: TextStyle(fontSize: 18)),
-            Text('DNI: 12345678', style: TextStyle(fontSize: 18)),
-            Text('Estado: Activo', style: TextStyle(fontSize: 18)),
+            Text('Nombre: Juan Pérez', style: TextStyle(fontSize: 20)),
+            Text('DNI: 12345678', style: TextStyle(fontSize: 20)),
+            Text('Estado: Activo', style: TextStyle(fontSize: 20)),
             SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PantallaSaldos()),
-                );
-              },
-              child: Text('Ver Saldos'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PantallaSolicitudes()),
-                );
-              },
-              child: Text('Ver Solicitudes'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PantallaSaldos()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                    child: Text(
+                      'Ver Saldos',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16), // Separación entre los botones
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PantallaSolicitudes()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                    ),
+                    child: Text(
+                      'Ver Solicitudes',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -41,4 +63,5 @@ class PantallaPerfilCliente extends StatelessWidget {
     );
   }
 }
+
 
