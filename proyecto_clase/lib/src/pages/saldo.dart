@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PantallaSaldos extends StatelessWidget {
+  const PantallaSaldos({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Saldos del Cliente')),
+      appBar: AppBar(title: const Text('Saldos del Cliente')),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
-        children: [
+        children: const [
           Card(
             child: ListTile(
               title: Text('Cuenta de Ahorros'),

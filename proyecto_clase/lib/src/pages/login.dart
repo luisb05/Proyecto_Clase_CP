@@ -5,10 +5,12 @@ class PantallaInicioSesion extends StatelessWidget {
   final TextEditingController usuarioController = TextEditingController();
   final TextEditingController claveController = TextEditingController();
 
+  PantallaInicioSesion({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Inicio de Sesión')),
+      appBar: AppBar(title: const Text('Inicio de Sesión')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -16,23 +18,23 @@ class PantallaInicioSesion extends StatelessWidget {
           children: [
             TextField(
               controller: usuarioController,
-              decoration: InputDecoration(labelText: 'Usuario'),
+              decoration: const InputDecoration(labelText: 'Usuario'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextField(
               controller: claveController,
-              decoration: InputDecoration(labelText: 'Contraseña'),
+              decoration: const InputDecoration(labelText: 'Contraseña'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PantallaPerfilCliente()),
+                  MaterialPageRoute(builder: (context) => const PantallaPerfilCliente()),
                 );
               },
-              child: Text(
+              child: const Text(
                 'Iniciar Sesión',
                 style: TextStyle(fontSize: 18),
               ),

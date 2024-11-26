@@ -9,37 +9,37 @@ class PantallaCrearSolicitud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Crear Solicitud')),
+      appBar: AppBar(title: const Text('Crear Solicitud')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: propositoController,
-              decoration: InputDecoration(labelText: 'Propósito'),
+              decoration: const InputDecoration(labelText: 'Propósito'),
             ),
             TextField(
               controller: montoController,
-              decoration: InputDecoration(labelText: 'Monto'),
+              decoration: const InputDecoration(labelText: 'Monto'),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: tasaInteresController,
-              decoration: InputDecoration(labelText: 'Tasa de Interés'),
+              decoration: const InputDecoration(labelText: 'Tasa de Interés'),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: plazoController,
-              decoration: InputDecoration(labelText: 'Plazo'),
+              decoration: const InputDecoration(labelText: 'Plazo'),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Aquí se podría agregar lógica para guardar la solicitud.
                 Navigator.pop(context);
               },
-              child: Text('Guardar Solicitud'),
+              child: const Text('Guardar Solicitud'),
             ),
           ],
         ),
