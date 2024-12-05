@@ -1,39 +1,99 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:proyecto_clase/src/pages/crearsolicitud.dart';
+import 'package:proyecto_clase/src/const/api_constanst.dart';
+import 'package:proyecto_clase/src/models/solicitud.dart';
 
-class PantallaSolicitudes extends StatelessWidget {
-  const PantallaSolicitudes({super.key});
+class PantallaSolicitudes extends StatefulWidget {
+  final String idCliente;
+  final String token;
+
+  const PantallaSolicitudes({
+    super.key,
+    required this.idCliente,
+    required this.token,
+  });
+
+  @override
+  _PantallaSolicitudesState createState() => _PantallaSolicitudesState();
+}
+
+class _PantallaSolicitudesState extends State<PantallaSolicitudes> {
+  bool isLoading = true;
+  final String urlMetodo = 'Solicitud/GetAllByCustomerId';
+  List<Solicitud> solicitudes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSolicitudes();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Solicitudes del Cliente')),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: const [
-          Card(
-            child: ListTile(
-              title: Text('Solicitud 1'),
-              subtitle: Text('Estado: Aprobada'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('Solicitud 2'),
-              subtitle: Text('Estado: En Revisión'),
-            ),
-          ),
-        ],
-      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : solicitudes.isEmpty
+              ? const Center(child: Text('No hay solicitudes disponibles'))
+              : ListView(
+                  padding: const EdgeInsets.all(16.0),
+                  children: solicitudes.map((solicitud) {
+                    return Card(
+                      child: ListTile(
+                        title: Text('Solicitud ${solicitud.solicitudId}'),
+                        subtitle: Text('Estado: ${solicitud.estadoTexto}'),
+                      ),
+                    );
+                  }).toList(),
+                ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PantallaCrearSolicitud()),
+            MaterialPageRoute(
+                builder: (context) => PantallaCrearSolicitud()),
           );
         },
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Future<void> fetchSolicitudes() async {
+    try {
+      final headers = {
+        "accept": "*/*",
+        "Authorization": "Bearer ${widget.token}",
+      };
+
+      final url = Uri.parse(
+          '${ApiConstanst.baseUrlAPI}$urlMetodo?id=${widget.idCliente}');
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        List<dynamic> solicitudList = jsonDecode(response.body);
+        solicitudes =
+            solicitudList.map((json) => Solicitud.fromJson(json)).toList();
+      } else {
+        log("Error al obtener solicitudes: ${response.statusCode}");
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      log('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al cargar datos: $e')),
+      );
+    }
   }
 }
