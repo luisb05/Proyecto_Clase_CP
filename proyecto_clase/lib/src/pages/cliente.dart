@@ -27,7 +27,9 @@ class _PantallaClienteState extends State<PantallaCliente> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clientes'),
+        backgroundColor: Colors.purple[300],
+        title: const Text('Clientes'),        
+        titleTextStyle: const TextStyle(color: Colors.white,fontSize: 25),
       ),
       body: customers.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -35,27 +37,62 @@ class _PantallaClienteState extends State<PantallaCliente> {
               itemCount: customers.length,
               itemBuilder: (context, index) {
                 final customer = customers[index];
-                return ListTile(
-                  title: Text(customer['dni'] ?? 'Sin DNI'),
-                  subtitle: Text(customer['nombres'] ?? 'Sin Nombre'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PantallaPerfilCliente(
-                          idCliente: customer['customerId'].toString(),
-                          nombre: customer['nombres'] ?? 'Nombre no disponible',
-                          apellidos: customer['apellidos'] ??
-                              'apellidos no disponible',
-                          dni: customer['dni'] ?? 'DNI no disponible',
-                          estado: customer['estado'] == true ||
-                              customer['estado'].toString().toLowerCase() ==
-                                  'true',
-                          token: widget.token, // Pasando el token
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 20),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.purple[200],
+                        child: Text(
+                          customer['nombres']?.substring(0, 1) ?? 'N',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 24),
                         ),
                       ),
-                    );
-                  },
+                      title: Text(
+                        customer['nombres'] + ""+ customer['apellidos'] ?? 'Sin Nombre',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      subtitle: Text(
+                        customer['dni'] ?? 'Sin DNI',
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.purple[300],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaPerfilCliente(
+                              idCliente: customer['customerId'].toString(),
+                              nombre:
+                                  customer['nombres'] ?? 'Nombre no disponible',
+                              apellidos: customer['apellidos'] ??
+                                  'apellidos no disponible',
+                              dni: customer['dni'] ?? 'DNI no disponible',
+                              estado: customer['estado'] == true ||
+                                  customer['estado'].toString().toLowerCase() ==
+                                      'true',
+                              token: widget.token,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 );
               },
             ),

@@ -9,8 +9,8 @@ import 'package:proyecto_clase/src/models/prestamo.dart';
 class PantallaSaldos extends StatefulWidget {
   final String idCliente;
   final String token;
-  const PantallaSaldos(
-      {super.key, required this.idCliente, required this.token});
+
+  const PantallaSaldos({super.key, required this.idCliente, required this.token});
 
   @override
   _PantallaSaldosState createState() => _PantallaSaldosState();
@@ -32,25 +32,56 @@ class _PantallaSaldosState extends State<PantallaSaldos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Saldos del Cliente')),
+      appBar: AppBar(
+        title: const Text('Saldos del Cliente'),
+        titleTextStyle: const TextStyle(color: Colors.white,fontSize: 25),
+        backgroundColor: Colors.purple[300],
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
+                const Text(
+                  'Préstamos',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
                 ...prestamos.map((prestamo) {
                   return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: ListTile(
-                      title: Text('Préstamo ${prestamo.prestamoId}'),
-                      subtitle: Text('Saldo:Lps ${prestamo.saldo}'),
+                      leading: const Icon(Icons.monetization_on, color: Colors.green),
+                      title: Text('Préstamo ${prestamo.prestamoId}',
+                      style: const TextStyle(fontSize: 18)),
+                      subtitle: Text('Saldo: Lps ${prestamo.saldo}',
+                      style: const TextStyle(fontSize: 18)),
                     ),
                   );
                 }),
+
+                const SizedBox(height: 16),
+
+                const Text(
+                  'Cuentas',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
                 ...cuentas.map((cuenta) {
                   return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: ListTile(
-                      title: Text('Cuenta ${cuenta.cuentaId}'),
-                      subtitle: Text('Saldo:Lps ${cuenta.saldo}'),
+                      leading: const Icon(Icons.account_balance_wallet, color: Colors.blue),
+                      title: Text('Cuenta ${cuenta.cuentaId}',
+                      style: const TextStyle(fontSize: 18)),
+                      subtitle: Text('Saldo: Lps ${cuenta.saldo}',
+                      style: const TextStyle(fontSize: 18)),
                     ),
                   );
                 }),
