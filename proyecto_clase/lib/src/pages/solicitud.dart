@@ -85,9 +85,7 @@ class _PantallaSolicitudesState extends State<PantallaSolicitudes> {
                             Text(
                               'Propósito: ${solicitud.proposito}',
                               style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 18
-                              ),
+                                  color: Colors.grey.shade600, fontSize: 18),
                             ),
                             Text(
                               'Estado: ${solicitud.estadoTexto}',
@@ -108,13 +106,22 @@ class _PantallaSolicitudesState extends State<PantallaSolicitudes> {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PantallaCrearSolicitud(),
+              builder: (context) => PantallaCrearSolicitud(
+                idCliente: widget.idCliente,
+                token: widget.token,
+              ),
             ),
           );
+          if (result == true) {
+            setState(() {
+              isLoading = true;
+            });
+            fetchSolicitudes();
+          }
         },
         tooltip: 'Crear nueva solicitud',
         child: const Icon(Icons.add),
@@ -139,23 +146,14 @@ class _PantallaSolicitudesState extends State<PantallaSolicitudes> {
         solicitudes =
             solicitudList.map((json) => Solicitud.fromJson(json)).toList();
       } else {
-        log("Error al obtener solicitudes: ${response.statusCode}");
+        log("Error al obtener solicitudes: ${response.statusCode} - ${response.body}");
       }
-
-      setState(() {
-        isLoading = false;
-      });
     } catch (e) {
-      log('Error: $e');
+      log("Error: $e");
+    } finally {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al cargar datos: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
     }
   }
 }
